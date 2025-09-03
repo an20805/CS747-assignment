@@ -92,8 +92,11 @@ class UCB(Algorithm):
         self.t += 1
         self.u[arm_index] += 1
         self.p_hat[arm_index] = ((self.u[arm_index] - 1) * self.p_hat[arm_index] + reward) / self.u[arm_index]
-        self.ucb[arm_index] = self.p_hat[arm_index] + math.sqrt((2 * math.log(self.t)) / self.u[arm_index])
-        
+
+        if self.t >= self.num_arms:
+            for i in range(self.num_arms):
+                self.ucb[i] = self.p_hat[i] + math.sqrt((0.1 * math.log((self.t)**1)) / self.u[i])
+
         # END EDITING HERE
 
 
