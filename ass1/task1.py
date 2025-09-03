@@ -69,19 +69,31 @@ class UCB(Algorithm):
     def __init__(self, num_arms, horizon):
         super().__init__(num_arms, horizon)
         # You can add any other variables you need here
-        # START EDITING HERE
+        # START EDITING HERE        
+        self.u = np.zeros(num_arms)
+        self.ucb = np.zeros(num_arms)
+        self.p_hat = np.zeros(num_arms)
+        self.t = 0
         
         # END EDITING HERE
     
     def give_pull(self):
         # START EDITING HERE
-        pass
+        if self.t < self.num_arms:
+            return self.t
+        else:
+            return np.argmax(self.ucb)
+        
         # END EDITING HERE  
         
     
     def get_reward(self, arm_index, reward):
         # START EDITING HERE
-        pass
+        self.t += 1
+        self.u[arm_index] += 1
+        self.p_hat[arm_index] = ((self.u[arm_index] - 1) * self.p_hat[arm_index] + reward) / self.u[arm_index]
+        self.ucb[arm_index] = self.p_hat[arm_index] + math.sqrt((2 * math.log(self.t)) / self.u[arm_index])
+        
         # END EDITING HERE
 
 
