@@ -63,6 +63,13 @@ class Eps_Greedy(Algorithm):
 # START EDITING HERE
 # You can use this space to define any helper functions that you need
 
+def kl_divergence(p, q):
+    if p == 0:
+        return math.log(1 / (1 - q))
+    if p == 1:
+        return math.log(1 / q)
+    return p * math.log(p / q) + (1 - p) * math.log((1 - p) / (1 - q))
+
 # END EDITING HERE
 
 class UCB(Algorithm):
@@ -105,17 +112,40 @@ class KL_UCB(Algorithm):
         super().__init__(num_arms, horizon)
         # You can add any other variables you need here
         # START EDITING HERE
-        pass
+        self.u = np.zeros(num_arms)
+        self.kl_ucb = np.zeros(num_arms)
+        self.p_hat = np.zeros(num_arms)
+        self.t = 0
         # END EDITING HERE
     
     def give_pull(self):
         # START EDITING HERE
-        pass
+        if self.t < self.num_arms:
+            return self.t
+        else:
+            return np.argmax(self.kl_ucb)
         # END EDITING HERE
     
     def get_reward(self, arm_index, reward):
         # START EDITING HERE
-        pass
+        self.t += 1
+        self.u[arm_index] += 1
+        self.p_hat[arm_index] = ((self.u[arm_index] - 1) * self.p_hat[arm_index] + reward) / self.u[arm_index]
+        
+        if self.t >= self.num_arms:
+            for i in range(self.num_arms):
+                low, high = self.p_hat[i], 1.0
+                threshold = (math.log(self.t) + 0.3 * math.log(math.log(self.t))) / self.u[i]
+                mid = (low + high)/2
+
+                while high - low > 1e-6:
+                    if kl_divergence(self.p_hat[i], mid) > threshold:
+                        high = mid
+                    else:
+                        low = mid
+                    mid = (low + high)/2
+                self.kl_ucb[i] = mid
+
         # END EDITING HERE
 
 class Thompson_Sampling(Algorithm):

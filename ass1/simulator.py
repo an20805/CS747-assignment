@@ -130,7 +130,7 @@ def simulate_task3(algorithm, probs, horizon, num_sims=50):
 def task1(algorithm, probs, num_sims=50):
   """generates the plots and regrets for task1
   """
-  horizons = [2**i for i in range(10, 19)]
+  horizons = [2**i for i in range(10, 12)]
   regrets = []
   for horizon in horizons:
     regrets.append(simulate(algorithm, probs, horizon, num_sims))
@@ -332,8 +332,8 @@ if __name__ == '__main__':
 
   task1probs = [i/20 for i in range(20)]
   # task1(Eps_Greedy, task1probs, 1)
-  task1(UCB, task1probs)
-  # task1(KL_UCB, task1probs)
+  # task1(UCB, task1probs)
+  task1(KL_UCB, task1probs)
   # task1(Thompson_Sampling, task1probs)
   # TASK 1 ENDS HERE
 
