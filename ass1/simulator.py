@@ -130,7 +130,7 @@ def simulate_task3(algorithm, probs, horizon, num_sims=50):
 def task1(algorithm, probs, num_sims=50):
   """generates the plots and regrets for task1
   """
-  horizons = [2**i for i in range(10, 12)]
+  horizons = [2**i for i in range(10, 19)]
   regrets = []
   for horizon in horizons:
     regrets.append(simulate(algorithm, probs, horizon, num_sims))

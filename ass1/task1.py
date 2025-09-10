@@ -24,6 +24,7 @@ reference for implementing your own algorithms.
 
 import numpy as np
 import math
+from scipy.stats import beta
 # Hint: math.log is much faster than np.log for scalars
 
 class Algorithm:
@@ -153,17 +154,26 @@ class Thompson_Sampling(Algorithm):
         super().__init__(num_arms, horizon)
         # You can add any other variables you need here
         # START EDITING HERE
-        pass
+        self.success = np.zeros(num_arms)
+        self.fails = np.zeros(num_arms)
+        self.t = 0
+        self.beta_samples = np.zeros(num_arms)
         # END EDITING HERE
     
     def give_pull(self):
         # START EDITING HERE
         # Sample from Beta distribution for each arm
-        pass
+        for i in range(self.num_arms):
+            self.beta_samples[i] = beta.rvs(self.success[i] + 1, self.fails[i] + 1)
+
+        return np.argmax(self.beta_samples)
         # END EDITING HERE
     
     def get_reward(self, arm_index, reward):
         # START EDITING HERE
-        pass
+        if reward == 1:
+            self.success[arm_index] += 1
+        else:
+            self.fails[arm_index] += 1
         # END EDITING HERE
 
