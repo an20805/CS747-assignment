@@ -1,5 +1,6 @@
 import numpy as np
 from typing import List, Optional, Dict, Tuple
+import math
 
 # =========================================================
 # ===============   ENVIRONMENT (Poisson)   ===============
@@ -75,15 +76,15 @@ class StudentPolicy(Policy):
     """
     def __init__(self, K: int, rng: Optional[np.random.Generator] = None):
         super().__init__(K, rng)
-        self.eps = 0.1
+        self.alpha = np.full(K, 0.7)
+        self.beta = np.full(K, 0.95)
 
-    def select_arm(self, t: int) -> int:
-        for a in range(self.K):
-            if self.counts[a] == 0:
-                return a
-        if self.rng.random() < self.eps:
-            return int(self.rng.integers(0, self.K))
-        return int(np.argmax(self.means))
+    def select_arm(self, t: int) -> int:            
+        posterior_means = self.alpha / self.beta
+        return int(np.argmax(posterior_means))
 
     def update(self, arm: int, reward: float):
-        super().update(arm, reward)
+        super().update(arm, reward)   
+        self.alpha[arm] += reward
+        self.beta[arm] += 1.0
+

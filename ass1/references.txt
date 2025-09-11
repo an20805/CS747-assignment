@@ -1,1 +1,7 @@
-https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html
+https://numpy.org/doc/2.1/reference/random/generated/numpy.random.beta.html
+https://en.wikipedia.org/wiki/Poisson_distribution
+
+k = 4 n = 3
+t =     0 1 2 3 4 5 6 7 8 9 10 11 12 13
+t-k =   - - - - 0 1 2 3 4 5 6 7 8 9 
+(t-k)%n = - - - 0 1 2 0 1 2 0 1 2 0
