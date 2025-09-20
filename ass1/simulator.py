@@ -332,7 +332,7 @@ if __name__ == '__main__':
 
   task1probs = [i/20 for i in range(20)]
   # task1(Eps_Greedy, task1probs, 1)
-  # task1(UCB, task1probs)
+  task1(UCB, task1probs)
   # task1(KL_UCB, task1probs)
   # task1(Thompson_Sampling, task1probs)
   # TASK 1 ENDS HERE
@@ -346,8 +346,8 @@ if __name__ == '__main__':
   
   # TASK 3 STARTS HERE
   # Test with a simple bandit instance for task 3
-  task3probs = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-  task3(task3probs, num_sims=10)  # Reduced sims for faster testing
+  # task3probs = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+  # task3(task3probs, num_sims=10)  # Reduced sims for faster testing
   
   # BONUS: Test trajectory similarity for bonus algorithm (uncomment to test)
   # task3_bonus_trajectories(task3probs, horizon=5000, num_sims=3)

@@ -1,6 +1,5 @@
 import numpy as np
 from typing import List, Optional, Dict, Tuple
-import math
 
 # =========================================================
 # ===============   ENVIRONMENT (Poisson)   ===============
@@ -81,7 +80,7 @@ class StudentPolicy(Policy):
 
     def select_arm(self, t: int) -> int:            
         posterior_means = self.alpha / self.beta
-        return int(np.argmax(posterior_means))
+        return np.argmax(posterior_means)
 
     def update(self, arm: int, reward: float):
         super().update(arm, reward)   
